@@ -1,0 +1,89 @@
+		<style>
+html {
+  scroll-behavior: smooth;
+}
+.messages{
+			
+			justify-content: center;
+		}
+		h5 {
+          
+           color: rgba(9, 112, 0, 0.658)
+		}
+		h6 {
+          
+           color: red;
+		}
+</style>
+    <section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img boo" style="background-image: url(static/images/book1.jpg) ">
+			<div class="overlay"  id="section1"></div>
+    	<div class="container">
+    		<div class="row d-md-flex justify-content-end">
+    			<div class="col-md-12 col-lg-6 half p-3 py-5 pl-lg-5 ftco-animate heading-section heading-section-white">
+				<div class="messages"><center><h6>{{ msg }}</h6> <h5>{{ msg1 }}</h5></center></div>
+    				<span class="subheading">Booking an Appointment</span><br>
+    				<form action="/book" class="appointment"  method="POST">
+                        {% csrf_token %}
+    					<div class="row">
+    						<div class="col-md-12">
+									<div class="form-group">
+			    					<div class="form-field">
+	          					<div class="select-wrap">
+	                      <div class="icon"><span class="fa fa-chevron-down"></span></div>
+	                      <select name="service" id="service" class="form-control" required>
+                          <option value="">Select service </option>
+	                      	<option value="INTERIOR WASH">INTERIOR WASH</option>
+	                        <option value="EXTERIOR WASH">EXTERIOR WASH</option>
+	                        <option value="COMPLETE SUPERIOR WASH">COMPLETE SUPERIOR WASH</option>
+	                        <option value="REMOVING HARD WATER STAIN">REMOVING HARD WATER STAIN</option>
+	                        <option value="INTERIOR DETAILING">INTERIOR DETAILING</option>
+	                        <option value="EXTERIOR DETAILING">EXTERIOR DETAILING</option>
+	                      </select>
+	                    </div>
+			              </div>
+			    				</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+			              <input type="text" name="name" id="name" class="form-control" placeholder="Your Name"  required>
+			            </div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+			              <input type="text" name="regno" id="regno"  class="form-control" placeholder="Vehicle number" required>
+			            </div>
+								</div>
+							
+								<div class="col-md-6">
+									<div class="form-group">
+			    					<div class="input-wrap">
+			            		<div class="icon"><span class="fa fa-calendars"></span></div>
+			            		<input type="date" name="date" id="date" class="form-control appointment" placeholder="Date" required>
+		            		</div>
+			    				</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+			    					<div class="input-wrap">
+			            		<div class="icon"><span class="fa fa-clock-os"></span></div>
+						  
+			            		<input type="time"  min="08:00" max="18:00" name="time" id="time" class="form-control appointment" placeholder="Time" required> &nbsp;&nbsp; <small><b>Service hours are 8.30 am to 6.00pm</b></small>
+		            		</div>
+			    				</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+			              <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Message" required></textarea>
+			            </div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+			              <input type="submit" value="Submit" class="btn btn-dark py-3 px-4">
+			            </div>
+								</div>
+    					</div>
+	          </form>
+    			</div>
+    		</div>
+    	</div>
+    </section>
