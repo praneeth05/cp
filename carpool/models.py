@@ -10,12 +10,57 @@ class User(models.Model):
     class Meta:
         db_table = "users"
 
-class Car(models.Model):
+class Hatchback(models.Model):
     car_type = models.CharField(max_length=25, primary_key=True)
-    amount =  models.CharField(max_length=20)
-    time = models.TimeField()
+    intextwash =  models.CharField(max_length=20)
+    compwash =  models.CharField(max_length=20)
+    intdet =  models.CharField(max_length=20)
+    extdet =  models.CharField(max_length=20)
+    silver =  models.CharField(max_length=20)
+    gold =  models.CharField(max_length=20)
+    washtime = models.TimeField()
+    dettime = models.TimeField()
     class Meta:
-        db_table = "cars"
+        db_table = "Hatchback"
+
+class Sedan(models.Model):
+    car_type = models.CharField(max_length=25, primary_key=True)
+    intextwash =  models.CharField(max_length=20)
+    compwash =  models.CharField(max_length=20)
+    intdet =  models.CharField(max_length=20)
+    extdet =  models.CharField(max_length=20)
+    silver =  models.CharField(max_length=20)
+    gold =  models.CharField(max_length=20)
+    washtime = models.TimeField()
+    dettime = models.TimeField()
+    class Meta:
+        db_table = "Sedan"
+
+class Compactsuv(models.Model):
+    car_type = models.CharField(max_length=25, primary_key=True)
+    intextwash =  models.CharField(max_length=20)
+    compwash =  models.CharField(max_length=20)
+    intdet =  models.CharField(max_length=20)
+    extdet =  models.CharField(max_length=20)
+    silver =  models.CharField(max_length=20)
+    gold =  models.CharField(max_length=20)
+    washtime = models.TimeField()
+    dettime = models.TimeField()
+    class Meta:
+        db_table = "Compactsuv"
+
+class Suv(models.Model):
+    car_type = models.CharField(max_length=25, primary_key=True)
+    intextwash =  models.CharField(max_length=20)
+    compwash =  models.CharField(max_length=20)
+    intdet =  models.CharField(max_length=20)
+    extdet =  models.CharField(max_length=20)
+    silver =  models.CharField(max_length=20)
+    gold =  models.CharField(max_length=20)
+    washtime = models.TimeField()
+    dettime = models.TimeField()
+    class Meta:
+        db_table = "Suv"
 
 class Appointment(models.Model):
     service =  models.EmailField(max_length=100)

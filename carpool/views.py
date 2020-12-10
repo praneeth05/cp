@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from carpool.forms import CarForm,UserForm,AppointmentForm
-from carpool.models import Car,User,Appointment
+from carpool.forms import UserForm,AppointmentForm,HatchbackForm,SedanForm,CompactsuvForm,SuvForm
+from carpool.models import User,Hatchback,Sedan,Compactsuv,Suv,Appointment
 from django.contrib import messages
 from django.contrib.sessions.models import Session
 import mysql.connector
@@ -79,7 +79,7 @@ def user(request) :
     
    
 def logins(request) :
-    
+    try:
         username = request.POST["username"]
         password =  request.POST["password"]
         mydb = mysql.connector.connect(
@@ -102,52 +102,57 @@ def logins(request) :
             msg = 'Incorrect username/password!'
             return render(request,"login.html", {'msg':msg})
         close.mycursor
-
+    except:
+        return render(request,"index.html")
+    
 def book(request) :
-    service = request.POST["service"]
-    name = request.POST["name"]
-    regno =  request.POST["regno"]
-    reg = regno.upper()
-    msg = request.POST["message"]
-    time = request.POST["time"]
-    datee = request.POST["date"]
-    d,m,y = datee.split("-")
-    m1 = int(m)
-    d1 = int(d)
-    y1 = int(y)
-    today = datetime.datetime.now()
-    d = today.strftime("%m/%d/%y")
-    mm,dd,yy = d.split("/")
-    ddd = int(dd)
-    mmm = int(mm)
-    yyy = int(yy)
-    if (m1 >= mmm) and (d1 >= ddd) and (y1 >= yyy):
-        
-            try:
-                data = User.objects.filter(regno=reg).values('user_name','address', 'phone','cartype')
-                if data:
-                    for data in data:
-                      un =data['user_name']
-                      add = data['address']
-                      ctype = data['cartype']
-                      ph = data['phone']
-                else:
-                      msg1 = 'Please Enter a valid Register number'
-                      return render(request,"index.html", {'msg1':msg1})
-            except:
-                msg1 = 'Please Enter a valid Register number'
-                return render(request,"index.html", {'msg1':msg1})
-            try:
-                 book = Appointment(service=service,name=name,regno=reg,phone=ph,date=datee,time=time,msg=msg,address=add,cartype=ctype)
-                 book.save()
-                 msg1 = 'Appointment successfully'
-                 return render(request,"index.html", {'msg1':msg1})
-            except:
-                 msg = 'Appointment Unsuccessfully '
-                 return render(request,"index.html", {'msg':msg})
-    else:
-         msg = 'Invalid Date Selected '
-         return render(request,"index.html", {'msg':msg})
+    try:
+        service = request.POST["service"]
+        name = request.POST["name"]
+        regno =  request.POST["regno"]
+        reg = regno.upper()
+        msg = request.POST["message"]
+        time = request.POST["time"]
+        datee = request.POST["date"]
+        d,m,y = datee.split("-")
+        m1 = int(m)
+        d1 = int(d)
+        y1 = int(y)
+        today = datetime.datetime.now()
+        d = today.strftime("%m/%d/%y")
+        mm,dd,yy = d.split("/")
+        ddd = int(dd)
+        mmm = int(mm)
+        yyy = int(yy)
+        if (m1 >= mmm) and (d1 >= ddd) and (y1 >= yyy):
+            
+                try:
+                    data = User.objects.filter(regno=reg).values('user_name','address', 'phone','cartype')
+                    if data:
+                        for data in data:
+                            un =data['user_name']
+                            add = data['address']
+                            ctype = data['cartype']
+                            ph = data['phone']
+                    else:
+                        msg1 = 'Please Enter a valid Register number'
+                        return render(request,"index.html", {'msg1':msg1})
+                except:
+                    msg1 = 'Please Enter a valid Register number'
+                    return render(request,"index.html", {'msg1':msg1})
+                try:
+                    book = Appointment(service=service,name=name,regno=reg,phone=ph,date=datee,time=time,msg=msg,address=add,cartype=ctype)
+                    book.save()
+                    msg1 = 'Appointment successfully'
+                    return render(request,"index.html", {'msg1':msg1})
+                except:
+                    msg = 'Appointment Unsuccessfully '
+                    return render(request,"index.html", {'msg':msg})
+        else:
+            msg = 'Invalid Date Selected '
+            return render(request,"index.html", {'msg':msg})
+    except:
+        return render(request,"index.html")
 
 
 def logout(request) :
