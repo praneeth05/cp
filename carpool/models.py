@@ -75,4 +75,18 @@ class Appointment(models.Model):
     msg = models.CharField(max_length=225)
     class Meta:
         db_table = "appointment"
+
+class Package(models.Model):
+    service =  models.EmailField(max_length=100)
+    username =  models.EmailField(max_length=125)
+    regno =  models.CharField(max_length=25)
+    address = models.CharField(max_length=225)
+    phone = models.CharField(max_length=25)
+    cartype = models.CharField(max_length=25)
+    date = models.CharField(max_length=25)
+    time = models.CharField(max_length=25)
+    cartype = models.CharField(max_length=25)
+    package = models.CharField(max_length=225)
+    class Meta:
+        db_table = "Package"
       
