@@ -1,3 +1,33 @@
+			<style>
+html {
+  scroll-behavior: smooth;
+}
+.bb{
+	
+  font-family: cursive;
+  text-align: left !important;
+}
+  
+
+.glow {
+  font-size: 20px;
+  color: black;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 1px #05a1e9, 0 0 2px #05a1e9, 0 0 3px #05a1e9, 0 0 4px #05a1e8, 0 0 5px #05a1e7, 0 0 6px #e60073, 0 0 7px #e60073;
+  }
+  
+  to {
+    text-shadow: 0 0 2px #05a1e9, 0 0 3px #05a1e9, 0 0 4px #05a1e9, 0 0 5px #05a1e8, 0 0 6px #05a1e7, 0 0 7px #ff4da6, 0 0 8px #ff4da6;
+  }
+}
+</style>
 		<div class="wrap">
 	    <div class="container">
 				<div class="row justify-content-between">
@@ -18,31 +48,38 @@
 									<div class="icon d-flex align-items-center justify-content-center"><span><img src="static/images/phone.png" height="30px" width="25px"></img></span></div>
 									<div class="text"><span>Call us</span><span><a>(+91)7406591676<br>(+91)9636769606</a></span></div>
 								</div>
-							</div>
-							<div class="col-md-3 d-flex justify-content-end align-items-center">
-								<div class="social-media">
-					    		<p class="mb-0 d-flex">
-					    			<a href="comingsoon" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+								<div class="social-media"><br>
+					    		<p class="mb-0 d-flex align-items-center justify-content-center">
+					    			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="comingsoon" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
 					    			<a href="comingsoon" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
 					    			<a href="https://www.instagram.com/carpool_mangalore/" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
 					    			
-					    		</p><br>
-								<a href="/logout" class="nav-link"> <div class="icon d-flex align-items-center justify-content-center"><span ><img src="static/images/lo.png" height="25px" width="22px"></img></li></span></div></a> 
-								
-                              
-            
-         
+					    		</p>
 								</div>
-									
-								
-							</div>
-								
 							</div>
 							
-				        </div>
+
+									<div class="bb">
+	                                <h2 class="glow"><br>
+            						 {{user}}
+       							    </h2>	
+									   <a href="/logout" class="nav-link"> <div class="icon d-flex align-items-center justify-content-center"><span ><img src="static/images/lo.png" height="25px" width="22px"></img></li></span></div></a> 
+       							 </div>
+			
+								
+								
+                              
+      
+            
+         
+								
+									</div>
+							
+				        		</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		

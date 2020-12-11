@@ -23,46 +23,49 @@
 
     <link rel="stylesheet" href="static/css/flaticon.css">
     <link rel="stylesheet" href="static/css/style.css">
-	
-	</head>
-	
-  <body>
-       
-	{% include 'includes/topb.html' %}
+	<style>
+html {
+  scroll-behavior: smooth;
+}
+</style>
 
+	</head>
+  <body>
+		{% include 'includes/top.html' %}
 		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
 	    
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="fa fa-bars"></span> Menu
 	      </button>
-			
+				<form action="" class="searchform order-lg-last">
+          <div class="form-group d-flex">
+            <input type="text" class="form-control pl-3" placeholder="Search">
+            <button type="submit" placeholder="" class="form-control search"><span class="fa fa-search"></span></button>
+          </div>
+            
+        </form>
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav mr-auto">
-	        	
-	        	<li class="nav-item "><a href="/login" class="nav-link" >Login</a></li>
-	        	<li class="nav-item "><a href="/Signup" class="nav-link" >Signup</a></li>
-				
+	        	<li class="nav-item active"><a href="/index" class="nav-link">Home</a></li>
+	        	<li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+	        	<li class="nav-item"><a href="/team" class="nav-link">Team</a></li>
+				<li class="nav-item"><a href="/services" class="nav-link">Services</a></li>
+	        	<li class="nav-item"><a href="/project" class="nav-link">Project</a></li>
+	        	<li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
+	          <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+            
 	        </ul>
 	      </div>
 	    </div>
 	  </nav>
     <!-- END nav -->
-     {% include 'includes/landingl.html' %}
-
-    {% include 'includes/service.html' %}
-
-   	{% include 'includes/bprice.html' %}
-
-	  {% include 'includes/experience.html'%}
-
-   	{% include 'includes/gallery.html' %}
-
-    {% include 'includes/projects.html' %}
-
-	  {% include 'includes/blog.html' %}
-   
-    {% include 'includes/footerl.html' %}
+    
+    
+    <!--{% include 'includes/blog.html' %}-->
+    {% include 'includes/profile.html' %}
+  
+    {% include 'includes/footer.html' %}
   
 
   <!-- loader -->

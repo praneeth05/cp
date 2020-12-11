@@ -126,10 +126,12 @@
 			<div class="user_card">
 				<div class="d-flex justify-content-center">
 
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 					<h3 id="form-title">LOGIN</h3>
 				</div>
-				<div class="messages"><center><h6>{{ msg }}</h6> <h5>{{ msg1 }}</h5></center></div>
+				{% if msg == "0" %}
+					<script> swal("Oops !","Incorrect username/password!", "error"); </script>
+				{% endif %}
 				<div class="d-flex justify-content-center form_container">
 					<form method="POST" action="/logins">
                             {% csrf_token %}

@@ -33,7 +33,7 @@ urlpatterns = [
     path('user', views.user, name='user'),
     path('logins', views.logins, name='logins'),
     path('logout', views.logout, name='logout'),
-    path('book', views.book, ),
-    
+    path('book', views.book, name='book' ),
+    path('profile', views.profile, name='profile' ),
     
 ]

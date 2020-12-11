@@ -151,6 +151,7 @@
 	</style>
   </head>
   <body>
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <div class="notify"><span id="notifyType" class=""></span></div>
 	  {% include 'includes/top1.html' %}
 		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -183,7 +184,11 @@
 
 					<h3 id="form-title">Sign Up</h3>
 				</div>
-				<div class="messages"><center><h6>{{ msg }}</h6></center></div>
+				{% if msg == "0" %}
+					<script> swal("Oops !","Username or Car Alredy registered Helps check", "error"); </script>
+				{% elif msg == "1"%}
+					<script> swal("Done !","successfully registered", "success"); </script>
+				{% endif %}
 				<div class="d-flex justify-content-center form_container">
 					<form method="POST" action="/user">
                         {% csrf_token %}

@@ -27,6 +27,10 @@
 html {
   scroll-behavior: smooth;
 }
+
+
+
+
 </style>
 
 	</head>
@@ -34,17 +38,16 @@ html {
 		{% include 'includes/top.html' %}
 		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	    
+	    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="fa fa-bars"></span> Menu
 	      </button>
-				<form action="" class="searchform order-lg-last">
-          <div class="form-group d-flex">
-            <input type="text" class="form-control pl-3" placeholder="Search">
-            <button type="submit" placeholder="" class="form-control search"><span class="fa fa-search"></span></button>
-          </div>
-            
-        </form>
+				
+           		{% if msg == "4"%}
+				       	<script> swal("successfully Loged in","Welcome {{ user}}", "success"); </script>
+              {% endif %}
+
+       
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav mr-auto">
 	        	<li class="nav-item active"><a href="/index" class="nav-link">Home</a></li>
@@ -52,12 +55,15 @@ html {
 	        	<li class="nav-item"><a href="/team" class="nav-link">Team</a></li>
 				<li class="nav-item"><a href="/services" class="nav-link">Services</a></li>
 	        	<li class="nav-item"><a href="/project" class="nav-link">Project</a></li>
-	        	<li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
-	          <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+                   <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+	        	<li class="nav-item"><a href="/profile" class="nav-link">Profile</a></li>
+	  
             
 	        </ul>
 	      </div>
+        
 	    </div>
+       
 	  </nav>
     <!-- END nav -->
     {% include 'includes/landing.html' %}
@@ -97,6 +103,7 @@ html {
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="static/js/google-map.js"></script>
   <script src="static/js/main.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     
   </body>
 </html>

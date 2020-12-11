@@ -15,12 +15,22 @@ html {
            color: red;
 		}
 </style>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img boo" style="background-image: url(static/images/book1.jpg) ">
 			<div class="overlay"  id="section1"></div>
     	<div class="container">
     		<div class="row d-md-flex justify-content-end">
     			<div class="col-md-12 col-lg-6 half p-3 py-5 pl-lg-5 ftco-animate heading-section heading-section-white">
-				<div class="messages"><center><h6>{{ msg }}</h6> <h5>{{ msg1 }}</h5></center></div>
+				{% if msg == "0" %}
+					<script> swal("Invalid Register number","Please Enter a valid Register number", "error"); </script>
+				{% elif msg == "1"%}
+					<script> swal("Done !","Appointment successfully", "success"); </script>
+				{% elif msg == "2"%}
+					<script> swal("Oops !","Appointment Unsuccessfully", "error");</script>
+				{% elif msg == "3"%}
+					<script> swal("Invalid Date Selected","Please select proper date", "error"); </script>
+				{% endif %}
+
     				<span class="subheading">Booking an Appointment</span><br>
     				<form action="/book" class="appointment"  method="POST">
                         {% csrf_token %}
@@ -87,3 +97,4 @@ html {
     		</div>
     	</div>
     </section>
+	
