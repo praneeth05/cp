@@ -145,8 +145,12 @@ def logins(request) :
                     todel.delete()
                
             msg ='4'
-            return render(request,"index.html", {'msg':msg, 'user':suser[0]})                    
-            
+            adminuser = request.session['username']
+            if  adminuser == 'praneethjshetty@gmail.com':
+                return render(request,"indexadmin.html", {'msg':msg, 'user':suser[0]})   
+            else:
+                return render(request,"index.html", {'msg':msg, 'user':suser[0]}) 
+       
         else:
             msg = '0'
             return render(request,"login.html", {'msg':msg})
