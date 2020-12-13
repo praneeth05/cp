@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from carpool.forms import UserForm,AppointmentForm,HatchbackForm,SedanForm,CompactsuvForm,SuvForm
-from carpool.models import User,Hatchback,Sedan,Compactsuv,Suv,Appointment
+from carpool.forms import UserForm,AppointmentForm,CarpriceForm,PackageForm
+from carpool.models import User,Carprice,Appointment,Package
 from django.contrib import messages
 from django.contrib.sessions.models import Session
 import mysql.connector
@@ -10,8 +10,10 @@ from django.conf import settings
 from django.contrib import auth
 from datetime import date 
 import datetime
-from django.core.mail import send_mail
-
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import get_template, render_to_string
+from django.template import Context
+from django.utils.html import strip_tags
 
 # Create your views here.
 def login(request) :
@@ -166,6 +168,7 @@ def book(request) :
     try:
         service = request.POST["service"]
         name = request.POST["name"]
+        recp = name.upper()
         regno =  request.POST["regno"]
         reg = regno.upper()
         mesg = request.POST["message"]
@@ -185,7 +188,38 @@ def book(request) :
                             un =data['user_name']
                             add = data['address']
                             ctype = data['cartype']
+                            ct = ctype.upper()
                             ph = data['phone']
+
+                            
+                        price = Carprice.objects.filter(car_type = ct).values('intextwash','compwash','intdet','extdet','silver','gold','washtime','dettime')
+                        if price:
+                            for price in price:
+                                intextwash = price['intextwash']
+                                compwash = price['compwash']
+                                intdet = price['intdet']
+                                extdet = price['extdet']
+                                silver = price['silver']
+                                gold = price['gold']
+                                washtime = price['washtime']
+                                dettime = price['dettime']
+                                
+                                    
+                            if service == "INTERIOR WASH":
+                                charge = intextwash
+                            elif service == "EXTERIOR WASH":
+                                charge = intextwash
+                            elif service == "COMPLETE SUPERIOR WASH":
+                                charge = compwash
+                            elif service == "REMOVING HARD WATER STAIN":
+                                charge = '250'
+                            elif service == "INTERIOR DETAILING":
+                                charge = intdet
+                            elif service == "EXTERIOR DETAILING":
+                                charge = extdet
+                            else:
+                                charge = '0'
+
                     else:
                         msg = '0'
                         return render(request,"index.html", {'msg':msg, 'user':suser[0]})
@@ -193,8 +227,22 @@ def book(request) :
                     msg = '0'
                     return render(request,"index.html", {'msg':msg, 'user':suser[0]})
                 try:
-                    book = Appointment(service=service,name=name,regno=reg,phone=ph,date=datee,time=time,msg=mesg,address=add,cartype=ctype)
+                    book = Appointment(service=service,name=name,regno=reg,phone=ph,date=datee,time=time,msg=mesg,address=add,cartype=ctype,charges=charge)
                     book.save()
+                    maxid = Appointment.objects.filter(service=service,name=name,regno=reg,phone=ph,date=datee,time=time,msg=mesg,address=add,cartype=ctype,charges=charge).values('id')
+                    if maxid:
+                        for id in maxid:
+                            maxid = id['id']
+                    html_content = render_to_string("C:/cp/carpool/templates/email.html",{'name': name,'Regno': reg,'cartype': ctype,'time': time,'service': service,'date': datee,'mob':ph,'charge':charge,'recp':recp,'id':maxid,'address':add})
+                    text_content = strip_tags(html_content)
+                    email = EmailMultiAlternatives(
+                        "Appointment Booked !",
+                        text_content,
+                        settings.EMAIL_HOST_USER,
+                        [un]
+                        )
+                    email.attach_alternative(html_content,"text/html")
+                    email.send()
                     msg = '1'
                     return render(request,"index.html", {'msg':msg, 'user':suser[0]})
                 except:
@@ -209,6 +257,7 @@ def book(request) :
             suser = su.split('@')
             return render(request, "index.html", {'user':suser[0]})
         return redirect('login')
+                
 
 
 def logout(request) :
