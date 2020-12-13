@@ -205,9 +205,7 @@ def book(request) :
                                 dettime = price['dettime']
                                 
                                     
-                            if service == "INTERIOR WASH":
-                                charge = intextwash
-                            elif service == "EXTERIOR WASH":
+                            if service == "INTERIOR + EXTERIOR WASH":
                                 charge = intextwash
                             elif service == "COMPLETE SUPERIOR WASH":
                                 charge = compwash
