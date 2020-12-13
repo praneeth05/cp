@@ -21,6 +21,7 @@ urlpatterns = [
     path('', views.bindex, name='bindex'),
     path('bindex', views.bindex, name='bindex'),
     path('index', views.index, name='index'),
+    path('bookings', views.bookings, name='bookings'),
     path('about', views.about, name='about'),
     path('services', views.services, name='services'),
     path('team', views.team, name='team'),
@@ -34,6 +35,8 @@ urlpatterns = [
     path('logins', views.logins, name='logins'),
     path('logout', views.logout, name='logout'),
     path('book', views.book, name='book' ),
+    path('packbook', views.packbook, name='packbook' ),
     path('profile', views.profile, name='profile' ),
+    path('gallery', views.gallery, name='gallery' ),
     
 ]

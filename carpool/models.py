@@ -36,12 +36,14 @@ class Appointment(models.Model):
     cartype = models.CharField(max_length=25)
     msg = models.CharField(max_length=225)
     charges = models.CharField(max_length=25)
+    Washtime = models.CharField(max_length=25)
+    dettime = models.CharField(max_length=25)
     class Meta:
         db_table = "appointment"
 
 class Package(models.Model):
     service =  models.EmailField(max_length=100)
-    username =  models.EmailField(max_length=125)
+    name =  models.EmailField(max_length=125)
     regno =  models.CharField(max_length=25)
     address = models.CharField(max_length=225)
     phone = models.CharField(max_length=25)
@@ -49,7 +51,9 @@ class Package(models.Model):
     date = models.CharField(max_length=25)
     time = models.CharField(max_length=25)
     cartype = models.CharField(max_length=25)
-    package = models.CharField(max_length=225)
+    msg = models.CharField(max_length=225)
+    charges = models.CharField(max_length=25)
+    Washtime = models.CharField(max_length=25)
     class Meta:
         db_table = "Package"
       

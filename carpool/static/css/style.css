@@ -9213,12 +9213,14 @@ textarea.form-control {
     box-shadow: 0 0 0 0 rgba(247, 159, 36, 0); } }
 
 .heading-section .subheading {
-  font-size: 12px;
+  font-size: 18px;
   display: block;
   font-weight: 700;
   color: #f79f24;
   text-transform: uppercase;
-  letter-spacing: 2px; }
+  letter-spacing: 2px;
+  text-align: center ;
+ }
 
 .heading-section h2 {
   font-size: 24px;
