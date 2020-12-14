@@ -1,5 +1,5 @@
 from django import forms
-from  carpool.models import User,Carprice,Appointment,Package
+from  carpool.models import User,Carprice,Appointment,Package,Message
 
 class CarpriceForm(forms.ModelForm):
     class Meta:
@@ -16,4 +16,8 @@ class AppointmentForm(forms.ModelForm):
 class PackageForm(forms.ModelForm):
     class Meta:
         model = Package
+        fields = ("__all__")
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
         fields = ("__all__")

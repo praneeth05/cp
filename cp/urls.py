@@ -38,5 +38,6 @@ urlpatterns = [
     path('packbook', views.packbook, name='packbook' ),
     path('profile', views.profile, name='profile' ),
     path('gallery', views.gallery, name='gallery' ),
-    
+    path('message', views.message, name='message' ),
+    path('subscriptions', views.subscriptions, name='subscriptions' ),
 ]

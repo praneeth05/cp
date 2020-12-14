@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from carpool.forms import UserForm,AppointmentForm,CarpriceForm,PackageForm
-from carpool.models import User,Carprice,Appointment,Package
+from carpool.forms import UserForm,AppointmentForm,CarpriceForm,PackageForm,MessageForm
+from carpool.models import User,Carprice,Appointment,Package,Message
 from django.contrib import messages
 from django.contrib.sessions.models import Session
 import mysql.connector
@@ -82,17 +82,78 @@ def comingsoon(request) :
         return render(request, "comingsoon.html", {'user':suser[0]})
     return redirect('login')
 def profile(request) :
-    if request.session.has_key('username'):
+    try:
         su = request.session['username']
         suser = su.split('@')
-        return render(request, "userprofile.html", {'user':suser[0]})
-    return redirect('login')
+        userinfo = User.objects.filter(user_name=su).values('user_name','address','cartype','regno','phone')
+        for reg in userinfo:
+            regn = reg['regno']
+        userbook = Appointment.objects.filter(regno=regn).values('service','name','regno','date','time')
+        count = len(userbook)
+        
+        return render(request, "userprofile.html", {'appointment':userbook,'info':userinfo,'user':suser[0],'tcount':count})
+    except:
+        if request.session.has_key('username'):
+            su = request.session['username']
+            suser = su.split('@')
+            return render(request, "index.html", {'user':suser[0]})
+        return redirect('login')    
+    
 def bookings(request) :
-    if request.session.has_key('username'):
+    try:
         su = request.session['username']
         suser = su.split('@')
-        return render(request, "bookings.html", {'user':suser[0]})
-    return redirect('login')
+        booked = Appointment.objects.values('date','regno').all()   
+        for value in booked:
+            regn = value['regno']
+            date3 = value['date']
+            d1 = datetime.datetime.strptime(date3, "%Y-%m-%d")
+            today = date.today().isoformat()
+            d2 = datetime.datetime.strptime(today, "%Y-%m-%d")
+            if d1 < d2:
+                todel = Appointment.objects.filter(date=date3)
+                todel.delete()
+        try:
+            appointdata = Appointment.objects.values('service','name','regno','phone','date','time','msg','cartype')
+            if appointdata:
+                count = len(appointdata)
+                return render(request, "bookings.html", {'appointment':appointdata,'user':suser[0],'tcount':count})
+        except:
+            count = 0
+            return render(request, "subscriptions.html", {'user':suser[0],'tcount':count})
+    except:
+        if request.session.has_key('username'):
+            su = request.session['username']
+            suser = su.split('@')
+            return render(request, "index.html", {'user':suser[0]})
+        return redirect('login')
+
+def subscriptions(request) :
+    try:
+        su = request.session['username']
+        suser = su.split('@')
+        #Pack = Package.objects.values('date','regno').all()   
+        #for value in Pack:
+           # regn = value['regno']
+           # date3 = value['date']
+           # d1 = datetime.datetime.strptime(date3, "%Y-%m-%d")
+           # today = date.today().isoformat()
+            #d2 = datetime.datetime.strptime(today, "%Y-%m-%d")
+           # if d1 < d2:
+               # todel = Package.objects.filter(date=date3)
+               # todel.delete()
+      
+        packdata = Package.objects.values('service','name','regno','phone','date','time','msg','cartype','address')
+        if packdata:
+            count = len(packdata)
+            return render(request, "subscriptions.html", {'package':packdata,'user':suser[0],'tcount':count})
+        
+    except:
+        if request.session.has_key('username'):
+            su = request.session['username']
+            suser = su.split('@')
+            return render(request, "index.html", {'user':suser[0]})
+        return redirect('login')
 
 def gallery(request) :
     if request.session.has_key('username'):
@@ -259,13 +320,13 @@ def book(request) :
                             maxid = id['id']
 
                     try:
-                        html_content = render_to_string("C:/cp/carpool/templates/email.html",{'name': name,'Regno': reg,'cartype': ctype,'time': time,'service': service,'date': datee,'mob':ph,'charge':charge,'recp':recp,'id':maxid,'address':add,'Washtime':washtime,'dettime':dettime})
+                        html_content = render_to_string("C:/cp/carpool/templates/emailapp.html",{'name': name,'Regno': reg,'cartype': ctype,'time': time,'service': service,'date': datee,'mob':ph,'charge':charge,'recp':recp,'id':maxid,'address':add,'Washtime':washtime,'dettime':dettime})
                         text_content = strip_tags(html_content)
                         email = EmailMultiAlternatives(
                             "Appointment Booked !",
                             text_content,
                             settings.EMAIL_HOST_USER,
-                            [un]
+                            [un,"akashraj.jain22@gmail.com"]
                             )
                         email.attach_alternative(html_content,"text/html")
                         email.send()
@@ -372,12 +433,31 @@ def packbook(request):
             return render(request, "index.html", {'user':suser[0]})
         return redirect('login')
 
-                
 
+def message(request):
+    try:
+        emailid = request.POST["email"]
+        name = request.POST["name"]
+        subject = request.POST["subject"]
+        message =  request.POST["message"]
+        mesg = Message(email_id=emailid,name=name,subject=subject,message=message)
+        mesg.save()
+        msg="sent"
+        su = request.session['username']
+        suser = su.split('@')
+        return render(request,"contact.html", {'msg':msg, 'user':suser[0]})
+
+    except:
+        if request.session.has_key('username'):
+            su = request.session['username']
+            suser = su.split('@')
+            return render(request, "index.html", {'user':suser[0]})
+        return redirect('login')
 
 def logout(request) :
     if request.session.has_key('username'):
        request.session.flush()
     return render(request,"login.html")
+
 
 

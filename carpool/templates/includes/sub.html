@@ -13,12 +13,13 @@
 }
 #customers td, #customers th {
   border: 2px solid #ddd;
-  padding: 2px ;
+  padding: 2px;
 }
+
 
 #customers tr:nth-child(even){background-color: ;}
 
-#customers tr:hover {background-color: #ddd;}
+#customers tr:hover {background-color: #ddd;}   
 
 #customers th {
   padding-top: 12px;
@@ -30,13 +31,13 @@
 </style>
 </head>
 <body>
-
+<span id="dots3"></span><span id="more3">
 <section class="ftco-section">
-   
+    	
     		<div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section text-center ftco-animate">
-          	<h2>Service Bookings</h2>
-            <span class="subheading">Total Bookings:{{tcount}}</span>
+          	<h2>Monthly subscriptions</h2>
+            <span class="subheading">Total subscriptions: {{tcount}}</span>
           </div>
         </div>
         <center>
@@ -49,24 +50,26 @@
     <th>Time</th>
     <th>Car type</th>
     <th>Phone NO</th>
+    <th>Address</th>
     <th>Instructions</th>
   </tr>
-  {%for app in appointment%}
+  {%for pack in package%}
   <tr>
-    <td><b>{{app.service}}</b></td>
-    <td><b>{{app.name}}</b></td>
-    <td><b>{{app.regno}}</b></td>
-    <td><b>{{app.date}}</b></b></td>
-    <td><b>{{app.time}}</b></b></td>
-    <td><b>{{app.cartype}}</b></td>
-    <td><b>{{app.phone}}</b></td>
-    <td><b>{{app.msg}}</b></td>
+    <td><b>{{pack.service}}<b></td>
+    <td><b>{{pack.name}}<b></td>
+    <td><b>{{pack.regno}}<b></td>
+    <td><b>{{pack.date}}<b></b></td>
+    <td><b>{{pack.time}}<b></b></td>
+    <td><b>{{pack.cartype}}<b></td>
+    <td><b>{{pack.phone}}<b></td>
+    <td><b>{{pack.address}}<b></td>
+    <td><b>{{pack.msg}}<b></td>
       
   </tr>
   {%endfor%}
 
 </table>
-  </center>
+      </center>
 </section>
 </body>
 </html>

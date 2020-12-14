@@ -26,19 +26,22 @@
 			{% include 'includes/top.html' %}
 		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	    
+	     <script src="static/js/sweetalert.min.js"></script>
+
+				{% if msg == "sent" %}
+						<script> swal("Done !","Message successfully Sent", "success"); </script>
+				{% endif %}
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="fa fa-bars"></span> Menu
 	      </button>
 				<form action="#" class="searchform order-lg-last">
           <div class="form-group d-flex">
-            <input type="text" class="form-control pl-3" placeholder="Search">
-            <button type="submit" placeholder="" class="form-control search"><span class="fa fa-search"></span></button>
+          
           </div>
         </form>
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav mr-auto">
-		<li class="nav-item "><a href="/index" class="nav-link">Home</a></li>
+	        	<li class="nav-item "><a href="/index" class="nav-link">Home</a></li>
 	        <!--<li class="nav-item"><a href="/about" class="nav-link">About</a></li>-->
 	        	<li class="nav-item"><a href="/gallery" class="nav-link">Gallery</a></li>
 			    	<li class="nav-item"><a href="/services" class="nav-link">Services</a></li>
@@ -46,15 +49,17 @@
             <li class="nav-item active"><a href="/contact" class="nav-link">Contact</a></li>
             {%if user == "praneethjshetty" %}
             <li class="nav-item"><a href="/bookings" class="nav-link">Bookings</a></li>
+            <li class="nav-item"><a href="/subscriptions" class="nav-link">Subscriptions</a></li>
             {% else%}
 	        	<li class="nav-item"><a href="/profile" class="nav-link">Profile</a></li>
             {% endif %}
+            
 	        </ul>
 	      </div>
 	    </div>
 	  </nav>
     <!-- END nav -->
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('static/images/contact.jpeg');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text align-items-end">
@@ -75,7 +80,9 @@
 								<div class="col-md-7 d-flex">
 									<div class="contact-wrap w-100 p-md-5 p-4">
 										<h3 class="mb-4">Get in touch</h3>
-										<form method="POST" id="contactForm" class="contactForm">
+										<form method="POST" action="/message" id="contactForm" class="contactForm">
+                        				{% csrf_token %}
+										
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
@@ -115,7 +122,7 @@
 					        			<span class="fa fa-map-marker"></span>
 					        		</div>
 					        		<div class="text pl-3">
-						            <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
+						            <p><span>Address:</span>Ujjodi, Pumpwell, Kankanady, Mangaluru<br><b>Landmark: </b>Northern sky city</p>
 						          </div>
 					          </div>
 					        	<div class="dbox w-100 d-flex align-items-center">
@@ -123,7 +130,7 @@
 					        			<span class="fa fa-phone"></span>
 					        		</div>
 					        		<div class="text pl-3">
-						            <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
+						            <p><span>Phone:</span> <a href="tel://7406591676">(+91)7406591676, (+91)9636769606</a></p>
 						          </div>
 					          </div>
 					        	<div class="dbox w-100 d-flex align-items-center">
@@ -131,7 +138,7 @@
 					        			<span class="fa fa-paper-plane"></span>
 					        		</div>
 					        		<div class="text pl-3">
-						            <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+						            <p><span>Email:</span> <a href="mailto:info@yoursite.com">carpoolmangalore@gmail.com</a></p>
 						          </div>
 					          </div>
 					        	<div class="dbox w-100 d-flex align-items-center">
@@ -139,7 +146,7 @@
 					        			<span class="fa fa-globe"></span>
 					        		</div>
 					        		<div class="text pl-3">
-						            <p><span>Website</span> <a href="#">yoursite.com</a></p>
+						            <p><span>Website</span> <a href="#">www.carpoolmangalore.in</a></p>
 						          </div>
 					          </div>
 				          </div>
@@ -147,81 +154,25 @@
 							</div>
 						</div>
 					</div>
+				<section class="ftco-section">
+    	<div class="container">
+    		<div class="row justify-content-center pb-5 mb-3">
+          <div class="col-md-7 heading-section text-center ftco-animate">
+						<span class="subheading">MAP</span>
+            <h2>Directions</h2>
+          </div>
+		  </div>
+		  </div>
 					<div class="col-md-12">
-						<div id="map" class="map"></div>
-					</div>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30230.88467835633!2d74.86345179942803!3d12.869766378491203!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba35bc072c1c8f1%3A0xab7dd5e785cb6cfc!2sCar%20Pool!5e0!3m2!1sen!2sin!4v1607887128548!5m2!1sen!2sin" width="1110" height="600" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>					</div>
 				</div>
+				</section>
     	</div>
     </section>
 
 
-    <footer class="footer ftco-section">
-      <div class="container">
-        <div class="row mb-5">
-          <div class="col-md-6 col-lg">
-            <div class="ftco-footer-widget mb-4">
-              <h2 class="logo"><a href="#">Autorepair<span>.</span></a></h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-4">
-                <li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg">
-            <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">Services</h2>
-              <ul class="list-unstyled">
-                <li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Oil Change</a></li>
-                <li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Batteries</a></li>
-                <li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Tow Truck</a></li>
-                <li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Tire Change</a></li>
-                <li><a href="#" class="py-1 d-block"><span class="fa fa-check mr-3"></span>Engine Repair</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg">
-            <div class="ftco-footer-widget mb-4">
-            	<h2 class="ftco-heading-2">Contact information</h2>
-            	<div class="block-23 mb-3">
-	              <ul>
-	                <li><span class="icon fa fa-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-	                <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-	                <li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">info@yourdomain.com</span></a></li>
-	              </ul>
-	            </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg">
-             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Business Hours</h2>
-              <div class="opening-hours">
-              	<h4>Opening Days:</h4>
-              	<p class="pl-3">
-              		<span>Monday – Friday : 9am to 20 pm</span>
-              		<span>Saturday : 9am to 17 pm</span>
-              	</p>
-              	<h4>Vacations:</h4>
-              	<p class="pl-3">
-              		<span>All Sunday Days</span>
-              		<span>All Official Holidays</span>
-              	</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-          </div>
-        </div>
-      </div>
-    </footer>
-    
+   
+    {% include 'includes/footer.html' %}
   
 
   <!-- loader -->
