@@ -25,6 +25,8 @@ def login(request) :
         return render(request, "login.html")
 def Signup(request) :
     return render(request, "Signup.html")
+def forgetpass(request) :
+    return render(request, "forgetpass.html")
 def bindex(request) :
     if request.session.has_key('username'):
         su = request.session['username']
@@ -118,6 +120,12 @@ def bookings(request) :
             if appointdata:
                 count = len(appointdata)
                 return render(request, "bookings.html", {'appointment':appointdata,'user':suser[0],'tcount':count})
+            else:
+                mssg = "There is No Appointment to display"
+                msg = "1"
+                count = 0
+                return render(request, "bookings.html", {'user':suser[0],'tcount':count,'mssg':mssg,'msg':msg})
+
         except:
             count = 0
             return render(request, "subscriptions.html", {'user':suser[0],'tcount':count})
@@ -137,8 +145,8 @@ def subscriptions(request) :
            # regn = value['regno']
            # date3 = value['date']
            # d1 = datetime.datetime.strptime(date3, "%Y-%m-%d")
-           # today = date.today().isoformat()
-            #d2 = datetime.datetime.strptime(today, "%Y-%m-%d")
+        today = date.today().isoformat()
+        d2 = datetime.datetime.strptime(today, "%Y-%m-%d")
            # if d1 < d2:
                # todel = Package.objects.filter(date=date3)
                # todel.delete()
@@ -146,7 +154,12 @@ def subscriptions(request) :
         packdata = Package.objects.values('service','name','regno','phone','date','time','msg','cartype','address')
         if packdata:
             count = len(packdata)
-            return render(request, "subscriptions.html", {'package':packdata,'user':suser[0],'tcount':count})
+            return render(request, "subscriptions.html", {'package':packdata,'user':suser[0],'tcount':count,'date':d2})
+        else:
+            mssg = "There is No subscriptions to display"
+            msg = "1"
+            count = 0
+            return render(request, "subscriptions.html", {'user':suser[0],'tcount':count,'mssg':mssg,'msg':msg})
         
     except:
         if request.session.has_key('username'):
@@ -247,6 +260,31 @@ def logins(request) :
             suser = su.split('@')
             return render(request, "index.html", {'user':suser[0]})
         return redirect('login')
+def forgotpassword(request):
+    
+    username = request.POST["username"]
+    name = username.split("@")
+    data = User.objects.filter(user_name=username).values('user_name','password')
+    if data:
+        for data in data:
+            user_name = data['user_name']
+            password = data['password']
+        html_content = render_to_string("C:/cp/carpool/templates/emailforgetpass.html",{'name':name[0],'username': user_name,'password':password})
+        text_content = strip_tags(html_content)
+        email = EmailMultiAlternatives(
+            "CarPool Account Credentials",
+            text_content,
+            settings.EMAIL_HOST_USER,
+            [user_name]
+            )
+        email.attach_alternative(html_content,"text/html")
+        email.send()
+        msg = '1'
+        return render(request,"forgetpass.html", {'msg':msg,'email':user_name})
+    else:
+        msg = '2'
+        return render(request,"forgetpass.html", {'msg':msg})
+   
                 
 def book(request) :
     try:
@@ -404,20 +442,17 @@ def packbook(request):
                     if maxid:
                         for id in maxid:
                             maxid = id['id']
-                    try:
-                        html_content = render_to_string("C:/cp/carpool/templates/emailpack.html",{'name': name,'Regno': reg,'cartype': ctype,'time': time,'service': package,'date': datee,'mob':ph,'charge':charge,'recp':recp,'id':maxid,'address':add})
-                        text_content = strip_tags(html_content)
-                        email = EmailMultiAlternatives(
-                            "Monthly subscription Booked !",
-                            text_content,
-                            settings.EMAIL_HOST_USER,
-                            [un]
-                            )
-                        email.attach_alternative(html_content,"text/html")
-                        email.send()
-                    except:
-                        msg = 'packinternet'
-                        return render(request,"index.html", {'msg':msg, 'user':suser[0]})
+                    
+                    html_content = render_to_string("C:/cp/carpool/templates/emailpack.html",{'name': name,'Regno': reg,'cartype': ctype,'time': time,'service': package,'date': datee,'mob':ph,'charge':charge,'recp':recp,'id':maxid,'address':add})
+                    text_content = strip_tags(html_content)
+                    email = EmailMultiAlternatives(
+                        "Monthly subscription Booked !",
+                        text_content,
+                        settings.EMAIL_HOST_USER,
+                        [un]
+                        )
+                    email.attach_alternative(html_content,"text/html")
+                    email.send()
                     msg = '1'
                     return render(request,"index.html", {'msg':msg, 'user':suser[0]})
                 except:
@@ -446,6 +481,105 @@ def message(request):
         su = request.session['username']
         suser = su.split('@')
         return render(request,"contact.html", {'msg':msg, 'user':suser[0]})
+
+    except:
+        if request.session.has_key('username'):
+            su = request.session['username']
+            suser = su.split('@')
+            return render(request, "index.html", {'user':suser[0]})
+        return redirect('login')
+
+def edituser(request):
+    try:
+        su = request.session['username']
+        suser = su.split('@')
+        userinfo = User.objects.filter(user_name=su).values('user_id','user_name','address','cartype','regno','phone')     
+        return render(request, "userprofileedit.html", {'info':userinfo,'user':suser[0]})
+    except:
+        if request.session.has_key('username'):
+            su = request.session['username']
+            suser = su.split('@')
+            return render(request, "index.html", {'user':suser[0]})
+        return redirect('login')  
+def updateuser(request):
+    try:
+        su = request.session['username']
+        suser = su.split('@')
+        user_id = request.POST["user_id"]
+        user_name = request.POST["user_name"]
+        name = user_name.split("@")
+        address = request.POST["address"]
+        cartype = request.POST["cartype"]
+        regno = request.POST["regno"]
+        regno = regno.upper()
+        mob = request.POST["phone"]
+        password = User.objects.filter(user_id=user_id).values('password')
+        for value in password:
+            password = value['password']
+        User.objects.filter(user_id=user_id).update(user_name=user_name,address=address,cartype=cartype,regno=regno,phone=mob)
+        try:
+            html_content = render_to_string("C:/cp/carpool/templates/emailupdate.html",{'name':name[0],'username': user_name,'password':password,'cartype': cartype,'mob':mob,'address':address})
+            text_content = strip_tags(html_content)
+            email = EmailMultiAlternatives(
+                "Update Successfull !",
+                text_content,
+                settings.EMAIL_HOST_USER,
+                [user_name]
+                )
+            email.attach_alternative(html_content,"text/html")
+            email.send()
+        except:
+            msg = 'appinternet'
+            return render(request,"index.html", {'msg':msg, 'user':suser[0]})
+        request.session.flush()
+        return render(request,"login.html")
+    except:
+        if request.session.has_key('username'):
+            su = request.session['username']
+            suser = su.split('@')
+            return render(request, "index.html", {'user':suser[0]})
+        return redirect('login')
+def updatepass(request):
+    try:
+        su = request.session['username']
+        suser = su.split('@')
+        oldpassword = request.POST["oldpassword"]
+        newpassword = request.POST["password"]
+        if oldpassword == newpassword:
+            msg="sameasold"
+            su = request.session['username']
+            suser = su.split('@')
+            userinfo = User.objects.filter(user_name=su).values('user_id','user_name','address','cartype','regno','phone')     
+            return render(request, "userprofileedit.html", {'info':userinfo,'user':suser[0],'msg':msg})
+        else:
+            info = User.objects.filter(user_name=su).values('user_id','user_name','address','cartype','password')
+            for value in info:
+                user_id = value['user_id']
+                password = value['password']
+                user_name = value['user_name']
+                address = value['address']
+                cartype =value['cartype']
+            if oldpassword == password:
+                User.objects.filter(user_id=user_id).update(password=newpassword)
+            
+                html_content = render_to_string("C:/cp/carpool/templates/emailupdate.html",{'name':suser[0],'username': user_name,'password':newpassword,'cartype': cartype,'address':address})
+                text_content = strip_tags(html_content)
+                email = EmailMultiAlternatives(
+                    "Password Successfull Updated !",
+                    text_content,
+                    settings.EMAIL_HOST_USER,
+                    [user_name]
+                    )
+                email.attach_alternative(html_content,"text/html")
+                email.send()
+                request.session.flush()
+                return render(request,"login.html")
+            else:
+                msg="notsame"
+                su = request.session['username']
+                suser = su.split('@')
+                userinfo = User.objects.filter(user_name=su).values('user_id','user_name','address','cartype','regno','phone')     
+                return render(request, "userprofileedit.html", {'info':userinfo,'user':suser[0],'msg':msg})
 
     except:
         if request.session.has_key('username'):

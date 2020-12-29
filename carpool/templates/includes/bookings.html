@@ -32,14 +32,21 @@
 <body>
 
 <section class="ftco-section">
-   
+   	<script src="static/js/sweetalert.min.js"></script>
+           	{% if msg == "1" %}
+				       	<script> swal("Oops !","{{mssg}}", "warning"); </script>
+              {% endif %}
     		<div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section text-center ftco-animate">
+          
           	<h2>Service Bookings</h2>
             <span class="subheading">Total Bookings:{{tcount}}</span>
           </div>
         </div>
         <center>
+        {%if appointment%}
+<input id="myInput" type="text" placeholder="Filter"><br><br>
+
 <table id="customers">
   <tr>
     <th>Service</th>
@@ -51,6 +58,7 @@
     <th>Phone NO</th>
     <th>Instructions</th>
   </tr>
+  <tbody id="customers">
   {%for app in appointment%}
   <tr>
     <td><b>{{app.service}}</b></td>
@@ -64,9 +72,45 @@
       
   </tr>
   {%endfor%}
+  </tbody>
 
 </table>
-  </center>
+ <br><Br>
+  <button type="button" class="btn btn-primary"  onclick="tableToExcel('customers','name')"><i class="fas fa-file-csv"></i><b> Save Excel </button></b>
+ </center>
+ {% endif %}
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#customers tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
+
+
+function tableToExcel(table, name) {
+    let filename="subscriptions{{date}}.xls"
+    let uri = 'data:application/vnd.ms-excel;base64,', 
+    template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><title></title><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', 
+    base64 = function(s) { return window.btoa(decodeURIComponent(encodeURIComponent(s))) },     
+    format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; })}
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    var link = document.createElement('a');
+    link.download = filename;
+    link.href = uri + base64(format(template, ctx));
+    link.click();
+}
+
+
+    </script>
 </body>
 </html>

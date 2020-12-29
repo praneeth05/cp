@@ -40,4 +40,10 @@ urlpatterns = [
     path('gallery', views.gallery, name='gallery' ),
     path('message', views.message, name='message' ),
     path('subscriptions', views.subscriptions, name='subscriptions' ),
+    path('forgotpassword', views.forgotpassword, name='forgotpassword' ),
+    path('forgetpass', views.forgetpass, name='forgetpass' ),
+    path('edituser', views.edituser, name='edituser' ),
+    path('updateuser', views.updateuser, name='updateuser' ),
+    path('updatepass', views.updatepass, name='updatepass' ),
+
 ]

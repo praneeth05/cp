@@ -25,7 +25,7 @@ SECRET_KEY = 'ntxp+ck-j%c06uxb*k&3uc!ew5i!nq86de+i5l54bm^$d)b@h!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
