@@ -36,9 +36,11 @@ def bindex(request) :
         return render(request, "bindex.html")
 def index(request) :
     if request.session.has_key('username'):
+       mes = Message.objects.filter(status = "0").values('id','email_id','name','subject','message','dettime')    
+       mcount = len(mes) 
        su = request.session['username']
        suser = su.split('@')
-       return render(request, "index.html", {'user':suser[0]})
+       return render(request, "index.html", {'user':suser[0],'msgcount':mcount})
     return redirect('login')
 
 def about(request) :
@@ -229,7 +231,8 @@ def logins(request) :
 
         mycursor.execute("SELECT * FROM users WHERE user_name = %s AND password = %s", (username, password,))
         account = mycursor.fetchone()
-
+        mes = Message.objects.filter(status = "0").values('id','email_id','name','subject','message','dettime')    
+        mcount = len(mes) 
         if account:
             request.session['username'] = username
             su = request.session['username']
@@ -248,7 +251,7 @@ def logins(request) :
                     todel.delete()
                
             msg ='4'
-            return render(request,"index.html", {'msg':msg, 'user':suser[0]}) 
+            return render(request,"index.html", {'msg':msg, 'user':suser[0],'msgcount':mcount}) 
        
         else:
             msg = '0'
@@ -364,7 +367,7 @@ def book(request) :
                             "Appointment Booked !",
                             text_content,
                             settings.EMAIL_HOST_USER,
-                            [un,"akashraj.jain22@gmail.com"]
+                            [un]
                             )
                         email.attach_alternative(html_content,"text/html")
                         email.send()
@@ -471,11 +474,14 @@ def packbook(request):
 
 def message(request):
     try:
+        su = request.session['username']
+        suser = su.split('@')
         emailid = request.POST["email"]
         name = request.POST["name"]
         subject = request.POST["subject"]
         message =  request.POST["message"]
-        mesg = Message(email_id=emailid,name=name,subject=subject,message=message)
+        today1 = date.today().isoformat()
+        mesg = Message(dettime=today1,email_id=emailid,name=name,subject=subject,message=message,status="0")
         mesg.save()
         msg="sent"
         su = request.session['username']
@@ -488,6 +494,19 @@ def message(request):
             suser = su.split('@')
             return render(request, "index.html", {'user':suser[0]})
         return redirect('login')
+
+def Messages(request):
+    
+        su = request.session['username']
+        suser = su.split('@')
+        mes = Message.objects.filter(status = "0").values('id','email_id','name','subject','message','dettime')    
+        for ids in mes:
+            idd = ids['id']
+            Message.objects.filter(id=idd).update(status="1")
+        count = len(mes) 
+        return render(request, "messages.html", {'info':mes,'user':suser[0],'tcount':count})
+         
+    
 
 def edituser(request):
     try:

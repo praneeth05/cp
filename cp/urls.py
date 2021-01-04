@@ -45,5 +45,5 @@ urlpatterns = [
     path('edituser', views.edituser, name='edituser' ),
     path('updateuser', views.updateuser, name='updateuser' ),
     path('updatepass', views.updatepass, name='updatepass' ),
-
+    path('Messages', views.Messages, name='Messages' ),
 ]

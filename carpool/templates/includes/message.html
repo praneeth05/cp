@@ -1,0 +1,91 @@
+<style>
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width:auto;
+}
+.table{
+    overflow-x:auto;
+    text-align: justify;
+	color: white;
+}
+#customers td, #customers th {
+  border: 3px solid #f2f2f2;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height:5px;
+    text-align: center;
+}
+
+
+
+#customers tr:hover {background-color: #f2f2f2;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #000000;
+  color: white;
+}
+.glows {
+  font-size: 20px;
+  color: black;
+  text-align: center;
+  -webkit-animation: glows 1s ease-in-out infinite alternate;
+  -moz-animation: glows 1s ease-in-out infinite alternate;
+  animation: glows 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glows {
+  from {
+    text-shadow: 0 0 1px red, 0 0 2px red, 0 0 3px red, 0 0 4px red, 0 0 5px red, 0 0 6px red, 0 0 7px red;
+  }
+  
+  to {
+    text-shadow: 0 0 2px #05a1e9, 0 0 3px red, 0 0 4px #05a1e9, 0 0 5px #05a1e8, 0 0 6px #05a1e7, 0 0 7px #ff4da6, 0 0 8px #ff4da6;
+  }
+}
+</style>
+
+    <section class="ftco-section bg-dark ">
+    	
+										
+										
+
+		<section >
+   
+    		<div class="row justify-content-center pb-5 mb-3">
+          <div class="col-md- heading-section text-center ftco-animate">
+          	<h2>Messages</h2>
+            <span class="subheading">Total Messages : <b class="glows"> {{tcount}}</b></span>
+       
+        <center><br><br>
+ {% if tcount != 0%} 
+ <table id="customers">
+  <tr>
+	<th>Date</th>
+    <th>Name</th>
+    <th>Email ID</th>
+    <th>Suject</th>
+    <th>Message</th>
+    
+  </tr>
+  {%endif%}
+  {%for app in info%}
+  <tr>
+    <td><b>{{app.dettime}}</b></td>
+     <td><b>{{app.name}}</b></td>
+    <td><b>{{app.email_id}}</b></td>
+    <td><b>{{app.subject}}</b></td>
+    <td><b>{{app.message}}</b></b></td>      
+  </tr>
+  {%endfor%}
+
+</table>
+  </center>
+     </div>
+        </div>
+</section>
+ 	</div>
+    </section>

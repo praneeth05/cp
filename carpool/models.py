@@ -58,10 +58,12 @@ class Package(models.Model):
         db_table = "Package"
       
 class Message(models.Model):
+    dettime = models.CharField(max_length=25)
     email_id =  models.EmailField(max_length=100)
     name =  models.EmailField(max_length=125)
     subject =  models.CharField(max_length=200)
     message = models.CharField(max_length=600)
+    status = models.CharField(max_length=5)
     class Meta:
         db_table = "Message"
       
